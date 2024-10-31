@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.arima.model import ARIMA
 
 # Cargar el dataset
 data = pd.read_csv('electricity-consumption-processed.csv', sep=';', parse_dates=['datetime'])
@@ -17,9 +17,8 @@ daily_max_consumption = daily_max_consumption[daily_max_consumption['max_consump
 # Establecer la frecuencia del índice a diaria
 daily_max_consumption = daily_max_consumption.asfreq('D')
 
-
-# Ajustar el modelo SARIMAX
-model = SARIMAX(daily_max_consumption['max_consumption'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+# Ajustar el modelo ARIMA
+model = ARIMA(daily_max_consumption['max_consumption'], order=(1, 1, 1))
 results = model.fit()
 
 # Realizar predicciones para todos los días en el dataset
@@ -40,7 +39,7 @@ plt.plot(pred_mean.index, pred_mean, label='Predicción', color='orange')
 plt.fill_between(pred_conf.index, pred_conf.iloc[:, 0], pred_conf.iloc[:, 1], color='pink', alpha=0.3)
 
 # Configurar el gráfico
-plt.title('Comparación entre Consumo Máximo Diario Real y Predicciones (SARIMAX)')
+plt.title('Comparación entre Consumo Máximo Diario Real y Predicciones (ARIMA)')
 plt.xlabel('Fecha')
 plt.ylabel('Consumo')
 plt.legend()
