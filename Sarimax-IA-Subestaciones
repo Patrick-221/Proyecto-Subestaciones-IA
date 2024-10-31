@@ -17,7 +17,6 @@ daily_max_consumption = daily_max_consumption[daily_max_consumption['max_consump
 # Establecer la frecuencia del índice a diaria
 daily_max_consumption = daily_max_consumption.asfreq('D')
 
-
 # Ajustar el modelo SARIMAX
 model = SARIMAX(daily_max_consumption['max_consumption'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
 results = model.fit()
@@ -49,4 +48,4 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 
 # Mostrar gráfico
-plt.show()
+plt.show()  
